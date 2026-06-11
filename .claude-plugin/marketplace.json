@@ -1,0 +1,31 @@
+{
+  "name": "ai-toolbox",
+  "owner": {
+    "name": "lqzhgood"
+  },
+  "metadata": {
+    "description": "Personal AI asset library: skills, prompts and MCP configs - curated, validated and indexed",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "ai-toolbox-manager",
+      "description": "Curation tools for the toolbox: /import and /find commands plus the toolbox-import workflow skill",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/toolbox-import"
+      ]
+    },
+    {
+      "name": "ai-toolbox-skills",
+      "description": "All general-purpose skills collected in this toolbox (managed by `npm run index`)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/excalidraw-diagram",
+        "./skills/handoff"
+      ]
+    }
+  ]
+}

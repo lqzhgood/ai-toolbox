@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ai-toolbox · AI asset catalog</title>
+<meta name="description" content="Personal AI asset library: skills, prompts and MCP configs - curated, validated and indexed.">
+<style>
+  :root {
+    --bg: #fafafa; --fg: #1a1a1a; --muted: #666; --card: #fff; --border: #e2e2e2;
+    --accent: #2563eb; --accent-fg: #fff; --chip: #eef2ff; --chip-on: #2563eb;
+    --code-bg: #f4f4f5; --shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111114; --fg: #e7e7ea; --muted: #9a9aa3; --card: #1b1b20; --border: #2c2c33;
+      --accent: #60a5fa; --accent-fg: #0b0b0e; --chip: #1e2433; --chip-on: #60a5fa;
+      --code-bg: #26262d; --shadow: 0 1px 3px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  header { padding: 40px 0 8px; }
+  h1 { margin: 0; font-size: 28px; letter-spacing: -.02em; }
+  h1 .logo { margin-right: 8px; }
+  .tagline { color: var(--muted); margin: 6px 0 0; }
+  .repo-link { color: var(--accent); text-decoration: none; font-size: 14px; }
+  .repo-link:hover { text-decoration: underline; }
+  .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0 10px; z-index: 5; }
+  #q {
+    width: 100%; padding: 10px 14px; font-size: 15px; color: var(--fg);
+    background: var(--card); border: 1px solid var(--border); border-radius: 10px; outline: none;
+  }
+  #q:focus { border-color: var(--accent); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chips .label { color: var(--muted); font-size: 13px; align-self: center; margin-right: 2px; }
+  .chip {
+    border: 1px solid var(--border); background: var(--card); color: var(--fg);
+    border-radius: 999px; padding: 3px 12px; font-size: 13px; cursor: pointer;
+  }
+  .chip.on { background: var(--chip-on); border-color: var(--chip-on); color: var(--accent-fg); }
+  .count { color: var(--muted); font-size: 13px; margin: 10px 0 4px; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 14px; padding-bottom: 60px; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px;
+  }
+  .card h2 { margin: 0; font-size: 17px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge { font-size: 11px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .badge.skill { color: #16a34a; border-color: #16a34a55; }
+  .badge.prompt { color: #d97706; border-color: #d9770655; }
+  .badge.mcp { color: #9333ea; border-color: #9333ea55; }
+  .desc { margin: 0; font-size: 14px; color: var(--fg); }
+  .meta { font-size: 12.5px; color: var(--muted); display: flex; gap: 10px; flex-wrap: wrap; }
+  .meta a { color: var(--accent); text-decoration: none; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { background: var(--chip); color: var(--accent); font-size: 12px; padding: 1px 9px; border-radius: 999px; }
+  details { margin-top: 2px; }
+  summary { cursor: pointer; font-size: 13px; color: var(--accent); }
+  .install { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .install .row { display: flex; align-items: center; gap: 6px; }
+  .install .how { font-size: 11.5px; color: var(--muted); width: 86px; flex: none; }
+  .install code {
+    flex: 1; background: var(--code-bg); border-radius: 6px; padding: 4px 8px;
+    font: 12px/1.45 ui-monospace, SFMono-Regular, Consolas, monospace; overflow-x: auto; white-space: nowrap;
+  }
+  .copy { border: 1px solid var(--border); background: var(--card); color: var(--muted); border-radius: 6px; cursor: pointer; font-size: 12px; padding: 3px 8px; flex: none; }
+  .copy:hover { color: var(--accent); border-color: var(--accent); }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; grid-column: 1/-1; }
+  footer { color: var(--muted); font-size: 13px; padding: 18px 0 40px; border-top: 1px solid var(--border); }
+  noscript { display: block; padding: 20px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1><span class="logo">🧰</span>ai-toolbox</h1>
+    <p class="tagline">Personal AI asset library: skills, prompts and MCP configs — curated, validated and indexed.
+      <a id="repoLink" class="repo-link" href="#" target="_blank" rel="noopener">GitHub ↗</a></p>
+  </header>
+
+  <section class="controls">
+    <input id="q" type="search" placeholder="Search name, description, tags…" autocomplete="off">
+    <div class="chips" id="typeChips"><span class="label">type</span></div>
+    <div class="chips" id="categoryChips"><span class="label">category</span></div>
+    <div class="chips" id="originChips"><span class="label">origin</span></div>
+    <div class="count" id="count"></div>
+  </section>
+
+  <main id="grid"></main>
+
+  <footer>
+    Rendered from <a id="catalogLink" class="repo-link" href="catalog.json">catalog.json</a> ·
+    regenerate with <code>npm run index</code> · MIT
+  </footer>
+</div>
+
+<noscript>This catalog needs JavaScript. The raw data lives in catalog.json.</noscript>
+<script src="catalog.js"></script>
+<script>
+(function () {
+  const catalog = window.CATALOG;
+  if (!catalog || !Array.isArray(catalog.assets)) {
+    document.getElementById('grid').innerHTML =
+      '<p class="empty">catalog.js not found — run <code>npm run index</code> first.</p>';
+    return;
+  }
+  const repo = catalog.repo || 'lqzhgood/ai-toolbox';
+  const ghBase = 'https://github.com/' + repo;
+  document.getElementById('repoLink').href = ghBase;
+
+  const state = { q: '', type: null, category: null, origin: null };
+  const uniq = (key) => [...new Set(catalog.assets.map((a) => a[key]).filter(Boolean))].sort();
+
+  function chipBar(el, values, key) {
+    const all = document.createElement('button');
+    all.className = 'chip on';
+    all.textContent = 'all';
+    all.onclick = () => { state[key] = null; render(); };
+    el.appendChild(all);
+    for (const v of values) {
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = v;
+      b.dataset.value = v;
+      b.onclick = () => { state[key] = state[key] === v ? null : v; render(); };
+      el.appendChild(b);
+    }
+  }
+  chipBar(document.getElementById('typeChips'), uniq('type'), 'type');
+  chipBar(document.getElementById('categoryChips'), uniq('category'), 'category');
+  chipBar(document.getElementById('originChips'), uniq('origin'), 'origin');
+
+  document.getElementById('q').addEventListener('input', (e) => {
+    state.q = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  function installRows(a) {
+    if (a.type !== 'skill') {
+      return [['browse', ghBase + '/tree/main/' + a.path]];
+    }
+    return [
+      ['npx skills', 'npx skills add ' + repo + ' --skill ' + a.name],
+      ['Claude Code', '/plugin marketplace add ' + repo],
+      ['Codex', '$skill-installer install ' + ghBase + '/tree/main/' + a.path],
+    ];
+  }
+
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+  function card(a) {
+    const div = document.createElement('div');
+    div.className = 'card';
+    const sourceMeta = a.origin === 'third-party' && a.source
+      ? '<span>source: <a href="' + esc(a.source) + '" target="_blank" rel="noopener">' + esc(a.source.replace(/^https?:\/\/(www\.)?/, '')) + '</a></span>'
+      : '';
+    div.innerHTML =
+      '<h2>' + esc(a.name) + ' <span class="badge ' + esc(a.type) + '">' + esc(a.type) + '</span></h2>' +
+      '<p class="desc">' + esc(a.description) + '</p>' +
+      '<div class="tags">' + (a.tags || []).map((t) => '<span class="tag">' + esc(t) + '</span>').join('') + '</div>' +
+      '<div class="meta">' +
+        (a.category ? '<span>' + esc(a.category) + '</span>' : '') +
+        (a.origin ? '<span>' + esc(a.origin) + '</span>' : '') +
+        (a.version ? '<span>v' + esc(a.version) + '</span>' : '') +
+        sourceMeta +
+        '<span><a href="' + ghBase + '/tree/main/' + esc(a.path) + '" target="_blank" rel="noopener">view ↗</a></span>' +
+      '</div>' +
+      '<details><summary>Install / use</summary><div class="install">' +
+        installRows(a).map(([how, cmd]) =>
+          '<div class="row"><span class="how">' + esc(how) + '</span><code>' + esc(cmd) + '</code>' +
+          '<button class="copy" data-cmd="' + esc(cmd) + '">copy</button></div>'
+        ).join('') +
+      '</div></details>';
+    return div;
+  }
+
+  function render() {
+    for (const key of ['type', 'category', 'origin']) {
+      const bar = document.getElementById(key + 'Chips');
+      for (const b of bar.querySelectorAll('.chip')) {
+        b.classList.toggle('on', b.dataset.value ? state[key] === b.dataset.value : state[key] === null);
+      }
+    }
+    const hits = catalog.assets.filter((a) => {
+      if (state.type && a.type !== state.type) return false;
+      if (state.category && a.category !== state.category) return false;
+      if (state.origin && a.origin !== state.origin) return false;
+      if (state.q) {
+        const hay = [a.name, a.description, (a.tags || []).join(' '), a.category].join(' ').toLowerCase();
+        if (!hay.includes(state.q)) return false;
+      }
+      return true;
+    });
+    const grid = document.getElementById('grid');
+    grid.replaceChildren(...hits.map(card));
+    if (!hits.length) grid.innerHTML = '<p class="empty">No assets match. Clear a filter or try another keyword.</p>';
+    document.getElementById('count').textContent = hits.length + ' / ' + catalog.assets.length + ' assets';
+  }
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy');
+    if (!btn) return;
+    navigator.clipboard.writeText(btn.dataset.cmd).then(() => {
+      btn.textContent = 'copied!';
+      setTimeout(() => { btn.textContent = 'copy'; }, 1200);
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

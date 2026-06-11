@@ -1,0 +1,24 @@
+{
+  "name": "ai-toolbox",
+  "version": "0.1.0",
+  "description": "Personal AI asset library: skills, prompts, and MCP configs — curated, validated, indexed, and shareable across Claude Code, Codex, and other agents",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "ait": "./tools/cli.js"
+  },
+  "scripts": {
+    "test": "node --test tools/test/*.test.js",
+    "validate": "node tools/cli.js validate",
+    "index": "node tools/cli.js index",
+    "index:check": "node tools/cli.js index --check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": "https://github.com/lqzhgood/ai-toolbox",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}
