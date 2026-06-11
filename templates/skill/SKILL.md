@@ -1,6 +1,6 @@
 ---
 name: {{name}}
-description: TODO - what this skill does AND when an agent should use it. Include concrete trigger keywords. Max 1024 chars.
+description: "TODO - 中文为主：这个 skill 做什么 + 何时使用（含中文触发词）。English: one-line summary; triggers: keyword, keyword. Max 1024 chars."
 license: MIT
 metadata:
   category: TODO  # pick one: coding | document | writing | devops | data | research | productivity | meta

@@ -1,11 +1,11 @@
 ---
 name: handoff
-description: "Session handoff tool: save the current session as a structured summary, or restore context from a previous summary. Use when the user wants to save progress, summarize the session, resume earlier work, or says: handoff, session summary, wrap up, resume, pick up where left off, 总结会话, 保存进度, 会话摘要, 恢复会话, 接续, 继续上次."
+description: "会话交接工具：把当前会话保存为结构化摘要，或从之前的摘要恢复上下文。当用户想保存进度、总结会话、生成会话摘要、恢复会话、接续/继续上次工作时使用。English: save the session as a structured handoff summary or resume context from one; triggers: handoff, session summary, save progress, wrap up, resume, pick up where left off."
 license: MIT
 allowed-tools: Read, Write, Bash, Glob
 metadata:
   category: productivity
-  tags: "session, handoff, context, summary, resume"
+  tags: "session, handoff, context, summary, resume, 会话, 交接, 摘要, 恢复, 接续"
   origin: original
   author: lqzhgood
   version: "1.0"

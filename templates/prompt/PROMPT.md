@@ -1,6 +1,6 @@
 ---
 name: {{name}}
-description: TODO - what this prompt produces AND when to reach for it. Max 1024 chars.
+description: "TODO - 中文为主：这个 prompt 产出什么 + 何时使用（含中文触发词）。English: one-line summary; triggers: keyword. Max 1024 chars."
 license: MIT
 metadata:
   category: TODO  # pick one: coding | document | writing | devops | data | research | productivity | meta

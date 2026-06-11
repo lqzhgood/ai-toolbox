@@ -1,6 +1,6 @@
 ---
 name: {{name}}
-description: TODO - what this MCP server provides AND when to connect it. Max 1024 chars.
+description: "TODO - 中文为主：这个 MCP server 提供什么 + 何时接入（含中文触发词）。English: one-line summary; triggers: keyword. Max 1024 chars."
 license: MIT
 metadata:
   category: TODO  # pick one: coding | document | writing | devops | data | research | productivity | meta

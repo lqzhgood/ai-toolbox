@@ -1,11 +1,11 @@
 ---
 name: excalidraw-diagram
-description: Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts.
+description: "创建能'视觉论证'的 Excalidraw 图表 JSON 文件。当用户想画图、做示意图、可视化工作流/架构/概念时使用。English (upstream): create Excalidraw diagram JSON files that make visual arguments; use when the user wants to visualize workflows, architectures, or concepts."
 license: Unknown (upstream repository has no license file)
 compatibility: Diagram JSON generation works anywhere; the optional render/validate pipeline requires Python with uv and Playwright (chromium)
 metadata:
   category: document
-  tags: "excalidraw, diagram, visualization, design"
+  tags: "excalidraw, diagram, visualization, design, 图表, 画图, 可视化, 架构图"
   origin: third-party
   source: https://github.com/coleam00/excalidraw-diagram-skill
   source-ref: "8646fcc"

@@ -1,10 +1,10 @@
 ---
 name: toolbox-import
-description: Import an external AI asset (skill, prompt, or MCP config) into the ai-toolbox repository, with portability checks, duplicate detection, metadata completion and index rebuild. Use when the user wants to add, import, collect or curate an asset into their toolbox, e.g. "import this skill", "把这个 skill 导入", "收录", "入库".
+description: "把外部 AI 资产（skill、prompt、MCP 配置）导入 ai-toolbox 仓库：可移植性与隐私检查、查重、补全元数据并重建索引。当用户想导入、收录、入库、整理某个资产到工具箱时使用。English: import an external AI asset into the toolbox with portability checks, duplicate detection and metadata completion; triggers: import this skill, add to toolbox, curate."
 license: MIT
 metadata:
   category: meta
-  tags: "curation, import, toolbox, meta"
+  tags: "curation, import, toolbox, meta, 导入, 收录, 入库, 整理"
   origin: original
   author: lqzhgood
   version: "1.0"

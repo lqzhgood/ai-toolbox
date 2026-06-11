@@ -6,13 +6,17 @@
     {
       "type": "skill",
       "name": "excalidraw-diagram",
-      "description": "Create Excalidraw diagram JSON files that make visual arguments. Use when the user wants to visualize workflows, architectures, or concepts.",
+      "description": "创建能'视觉论证'的 Excalidraw 图表 JSON 文件。当用户想画图、做示意图、可视化工作流/架构/概念时使用。English (upstream): create Excalidraw diagram JSON files that make visual arguments; use when the user wants to visualize workflows, architectures, or concepts.",
       "category": "document",
       "tags": [
         "excalidraw",
         "diagram",
         "visualization",
-        "design"
+        "design",
+        "图表",
+        "画图",
+        "可视化",
+        "架构图"
       ],
       "origin": "third-party",
       "source": "https://github.com/coleam00/excalidraw-diagram-skill",
@@ -25,14 +29,19 @@
     {
       "type": "skill",
       "name": "handoff",
-      "description": "Session handoff tool: save the current session as a structured summary, or restore context from a previous summary. Use when the user wants to save progress, summarize the session, resume earlier work, or says: handoff, session summary, wrap up, resume, pick up where left off, 总结会话, 保存进度, 会话摘要, 恢复会话, 接续, 继续上次.",
+      "description": "会话交接工具：把当前会话保存为结构化摘要，或从之前的摘要恢复上下文。当用户想保存进度、总结会话、生成会话摘要、恢复会话、接续/继续上次工作时使用。English: save the session as a structured handoff summary or resume context from one; triggers: handoff, session summary, save progress, wrap up, resume, pick up where left off.",
       "category": "productivity",
       "tags": [
         "session",
         "handoff",
         "context",
         "summary",
-        "resume"
+        "resume",
+        "会话",
+        "交接",
+        "摘要",
+        "恢复",
+        "接续"
       ],
       "origin": "original",
       "author": "lqzhgood",
@@ -45,13 +54,17 @@
     {
       "type": "skill",
       "name": "toolbox-import",
-      "description": "Import an external AI asset (skill, prompt, or MCP config) into the ai-toolbox repository, with portability checks, duplicate detection, metadata completion and index rebuild. Use when the user wants to add, import, collect or curate an asset into their toolbox, e.g. \"import this skill\", \"把这个 skill 导入\", \"收录\", \"入库\".",
+      "description": "把外部 AI 资产（skill、prompt、MCP 配置）导入 ai-toolbox 仓库：可移植性与隐私检查、查重、补全元数据并重建索引。当用户想导入、收录、入库、整理某个资产到工具箱时使用。English: import an external AI asset into the toolbox with portability checks, duplicate detection and metadata completion; triggers: import this skill, add to toolbox, curate.",
       "category": "meta",
       "tags": [
         "curation",
         "import",
         "toolbox",
-        "meta"
+        "meta",
+        "导入",
+        "收录",
+        "入库",
+        "整理"
       ],
       "origin": "original",
       "author": "lqzhgood",
