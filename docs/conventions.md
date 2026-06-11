@@ -62,6 +62,14 @@ plugin automatically.
 ## Quality bar
 
 - `description` answers *what* + *when* and contains realistic trigger words.
+- **Description language:** English body + native-language trigger phrases
+  appended (e.g. `"... wrap up, resume, 总结会话, 保存进度"`). Modern LLMs match
+  across languages fine, but literal keyword overlap with what the user
+  actually types is the strongest trigger signal - so keep the exact phrases
+  a Chinese-speaking user would say, in Chinese. The English body is for the
+  shared audience (catalog browsing, non-Chinese users, ecosystem convention),
+  not because models "prefer" English. A private, never-shared asset may use a
+  fully native description.
 - Manifest under 500 lines; long reference material goes into `references/`.
 - No personal data: no real home paths, emails, tokens, internal hostnames.
   Documentation examples stay concrete but fictional: use well-known mock
