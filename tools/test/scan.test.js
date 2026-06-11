@@ -8,16 +8,23 @@ import { scanText, scanAsset } from '../lib/scan.js';
 const kinds = (findings) => findings.map((f) => f.kind);
 
 test('detects unix home paths', () => {
-  assert.ok(kinds(scanText('save to /Users/alice/notes.md')).includes('unix-home-path'));
-  assert.ok(kinds(scanText('cd /home/bob/project')).includes('unix-home-path'));
+  assert.ok(kinds(scanText('save to /Users/daiyayuan/notes.md')).includes('unix-home-path'));
+  assert.ok(kinds(scanText('cd /home/zhangwei/project')).includes('unix-home-path'));
 });
 
 test('detects windows user paths', () => {
-  assert.ok(kinds(scanText('C:\\Users\\bob\\Desktop')).includes('windows-home-path'));
+  assert.ok(kinds(scanText('C:\\Users\\daiyayuan\\Desktop')).includes('windows-home-path'));
 });
 
 test('detects email addresses', () => {
-  assert.ok(kinds(scanText('contact me at someone@example.com')).includes('email'));
+  assert.ok(kinds(scanText('contact me at someone@gmail.com')).includes('email'));
+});
+
+test('does not flag well-known mock identities (docs convention)', () => {
+  assert.deepEqual(scanText('e.g. /Users/alice/.handoff/2026-01-01_note.md'), []);
+  assert.deepEqual(scanText('cd /home/bob/project'), []);
+  assert.deepEqual(scanText('C:\\Users\\example\\Desktop'), []);
+  assert.deepEqual(scanText('mail someone@example.com or admin@demo.test'), []);
 });
 
 test('detects IPv4 addresses', () => {
@@ -45,7 +52,7 @@ test('findings carry line numbers', () => {
 test('scanAsset walks text files and skips binaries', () => {
   const dir = mkdtempSync(join(tmpdir(), 'scan-'));
   try {
-    writeFileSync(join(dir, 'SKILL.md'), 'see /Users/carol/tmp');
+    writeFileSync(join(dir, 'SKILL.md'), 'see /Users/daiyayuan/tmp');
     mkdirSync(join(dir, 'assets'));
     writeFileSync(join(dir, 'assets', 'pic.png'), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
     writeFileSync(join(dir, 'assets', 'note.txt'), 'ping 10.0.0.5 now');

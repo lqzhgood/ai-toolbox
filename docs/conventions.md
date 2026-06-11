@@ -64,7 +64,11 @@ plugin automatically.
 - `description` answers *what* + *when* and contains realistic trigger words.
 - Manifest under 500 lines; long reference material goes into `references/`.
 - No personal data: no real home paths, emails, tokens, internal hostnames.
-  Documentation examples use placeholders like `<home>` or `<project-root>`.
+  Documentation examples stay concrete but fictional: use well-known mock
+  identities (`/Users/alice`, `bob`, `someone@example.com` - the scanner
+  allowlists these and RFC 2606 reserved domains). Use abstract placeholders
+  like `<project-root>` only for structural locations with no fixed value;
+  agents copy placeholder syntax verbatim into real output otherwise.
 - Run before every commit:
 
 ```bash

@@ -109,12 +109,10 @@ metadata:
 > 复制对应的一行，粘贴到新对话框就能接续工作：
 >
 > Claude Code:
-> `/handoff --resume <home>/.handoff/2026-05-25_14-20_create-handoff-skill.md`
+> `/handoff --resume /Users/alice/.handoff/2026-05-25_14-20_create-handoff-skill.md`
 >
 > Codex:
-> `$handoff --resume <home>/.handoff/2026-05-25_14-20_create-handoff-skill.md`
->
-> （`<home>` 为实际的用户主目录绝对路径）
+> `$handoff --resume /Users/alice/.handoff/2026-05-25_14-20_create-handoff-skill.md`
 
 ### 保存模式注意事项
 

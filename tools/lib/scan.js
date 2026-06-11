@@ -1,12 +1,27 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { extname, join } from 'node:path';
 
+// Well-known placeholder identities used in documentation examples
+// (docs/conventions.md asks for these instead of real data, so examples can
+// stay concrete - concrete examples beat abstract placeholders for LLMs).
+const MOCK_USERS = new Set([
+  'alice', 'bob', 'carol', 'dave', 'eve', 'mallory', 'trent',
+  'example', 'user', 'username', 'yourname', 'you',
+  'jdoe', 'johndoe', 'janedoe', 'demo', 'foo', 'test',
+]);
+// RFC 2606 / RFC 6761 reserved names - safe by definition.
+const MOCK_EMAIL_DOMAIN_RE = /(?:^|\.)(?:example\.(?:com|org|net)|example|test|invalid|localhost)$/i;
+
+const allowHomePath = (m) => MOCK_USERS.has(m.split(/[\\/]+/).pop().toLowerCase());
+const allowEmail = (m) => MOCK_EMAIL_DOMAIN_RE.test(m.split('@').pop());
+
 // Heuristic patterns for portability/privacy problems. Findings are warnings
-// for a human or AI to review, not hard failures — false positives are expected.
+// for a human or AI to review, not hard failures - false positives are expected.
+// An `allow` predicate suppresses matches that follow the mock conventions above.
 const PATTERNS = [
-  { kind: 'unix-home-path', re: /(?:\/Users|\/home)\/[A-Za-z0-9._-]+/g },
-  { kind: 'windows-home-path', re: /[A-Za-z]:\\+Users\\+[A-Za-z0-9._-]+/g },
-  { kind: 'email', re: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g },
+  { kind: 'unix-home-path', re: /(?:\/Users|\/home)\/[A-Za-z0-9._-]+/g, allow: allowHomePath },
+  { kind: 'windows-home-path', re: /[A-Za-z]:\\+Users\\+[A-Za-z0-9._-]+/g, allow: allowHomePath },
+  { kind: 'email', re: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g, allow: allowEmail },
   { kind: 'ip-address', re: /\b(?:\d{1,3}\.){3}\d{1,3}\b/g },
   {
     kind: 'api-key',
@@ -23,10 +38,11 @@ export function scanText(text) {
   const findings = [];
   const lines = text.split(/\r?\n/);
   lines.forEach((line, i) => {
-    for (const { kind, re } of PATTERNS) {
+    for (const { kind, re, allow } of PATTERNS) {
       re.lastIndex = 0;
       let m;
       while ((m = re.exec(line)) !== null) {
+        if (allow && allow(m[0])) continue;
         findings.push({ kind, match: m[0], line: i + 1 });
       }
     }

@@ -69,7 +69,11 @@ Judge every warning plus anything the regexes cannot see:
 - *Functional* hardcoding (a script writes to a fixed user directory, calls a
   fixed hostname): must be parameterized or derived at runtime.
 - *Documentation examples* (sample output showing someone's home directory):
-  replace with placeholders like `<home>` or `<project-root>`.
+  keep them concrete but fictional - swap real identities for well-known mocks
+  (`alice`, `bob`, `example.com`; the scanner allowlists these). Reserve
+  abstract placeholders like `<project-root>` for structural locations that
+  have no fixed value; agents tend to copy placeholder syntax verbatim into
+  real output, so prefer concrete mocks wherever a literal value is shown.
 - Unstated platform assumptions (macOS-only commands, a specific shell,
   binaries that may be absent): generalize, or declare them in the
   `compatibility` frontmatter field.
