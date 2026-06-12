@@ -7,16 +7,48 @@
 
 **在线目录：** <https://lqzhgood.github.io/ai-toolbox/> · 机器可读索引：[`catalog.json`](catalog.json)
 
-## 安装
+## 导入资产（核心工作流）
 
-| 工具 | 命令 |
-| ---- | ---- |
-| Claude Code | `/plugin marketplace add lqzhgood/ai-toolbox` |
-| npx skills | `npx skills add lqzhgood/ai-toolbox --skill <名称>` |
-| Codex | `$skill-installer install https://github.com/lqzhgood/ai-toolbox/tree/main/skills/<名称>` |
-| 手动 | clone 后把 `skills/<名称>` 复制到 `~/.claude/skills/`、`~/.codex/skills/` 或 `.agents/skills/` |
+这个库靠**导入**生长：把发现的（或自己在别处写的）skill 指给导入器，
+它会完成检查、清理、溯源和索引。
 
-各平台细节见 [docs/installing.md](docs/installing.md)。
+在 Claude Code 中——仓库目录下，或任何装了 `ai-toolbox-manager` 插件的会话：
+
+```text
+/import D:\path\to\some-skill          # 本地目录
+/import https://github.com/coleam00/excalidraw-diagram-skill   # GitHub 仓库（或 /tree/... 子目录）
+```
+
+完整流程（定义在 [`skills/toolbox-import/SKILL.md`](skills/toolbox-import/SKILL.md)）：
+
+1. **识别类型** —— skill / prompt / mcp（裸提示词会被包装成规范形态）。
+2. **机械检查** —— `node tools/cli.js validate <路径>`：规范违例（name 格式、
+   name = 目录名）、硬编码用户路径、邮箱、密钥形状字符串、超长 manifest。
+3. **语义审查** —— 区分功能性硬编码与文档示例、未声明的平台假设、隐私、
+   description 质量。
+4. **查重** —— `node tools/cli.js similar <路径>` 关键词初筛 + 语义对比：
+   合并 / 替换 / 共存 / 放弃。
+5. **导入报告 → 你拍板。** 拍板前不会复制任何东西。
+6. **执行入库** —— 应用改写、补全元数据。三方资产强制记录
+   `source` + `source-ref` + `license` 便于溯源；自有资产标 `origin: original`。
+7. **重建索引** —— `catalog.json`、`catalog.js`、marketplace skills 清单自动
+   更新；最终 `validate` 必须 0 error。
+
+没有 Claude 时也可手动执行同一份 SKILL.md——每一步都是 CLI 命令加一个判断。
+
+## 维护与检索
+
+```bash
+npm install            # 一次性，维护命令需要（js-yaml）
+
+node tools/cli.js search <关键词>    # 检索（中英文均可，零依赖）
+node tools/cli.js list --type skill # 按类型/分类浏览
+node tools/cli.js new skill <名称>  # 从模板新建资产
+node tools/cli.js validate          # 规范 + 可移植性 + 隐私检查
+npm run index                       # 重建索引与 marketplace 清单
+```
+
+元数据规范与分类词表见 [docs/conventions.md](docs/conventions.md)。
 
 ## 仓库结构
 
@@ -37,23 +69,16 @@ templates/ 新资产脚手架
 `origin: third-party` 并强制记录上游 `source`、`source-ref` 和 `license`，
 便于溯源、致谢和后续对照上游更新。
 
-## 日常维护
+## 安装（共享）
 
-```bash
-npm install            # 仅维护者需要（js-yaml）
+| 工具 | 命令 |
+| ---- | ---- |
+| Claude Code | `/plugin marketplace add lqzhgood/ai-toolbox` |
+| npx skills | `npx skills add lqzhgood/ai-toolbox --skill <名称>` |
+| Codex | `$skill-installer install https://github.com/lqzhgood/ai-toolbox/tree/main/skills/<名称>` |
+| 手动 | clone 后把 `skills/<名称>` 复制到 `~/.claude/skills/`、`~/.codex/skills/` 或 `.agents/skills/` |
 
-node tools/cli.js validate          # 规范 + 可移植性 + 隐私检查
-node tools/cli.js new skill <名称>  # 从模板新建资产
-node tools/cli.js search <关键词>   # 检索（零依赖，读 catalog.json）
-node tools/cli.js similar <路径>    # 关键词重叠查重初筛
-npm run index                       # 重建索引与 marketplace 清单
-```
-
-要导入外部资产，用 **`/import <路径或 URL>`** 命令（或按
-[`skills/toolbox-import/SKILL.md`](skills/toolbox-import/SKILL.md) 手动执行）：
-自动校验、审查可移植性与隐私、查重、拟定元数据，**等你拍板后**才入库。
-
-元数据规范与分类词表见 [docs/conventions.md](docs/conventions.md)。
+各平台细节见 [docs/installing.md](docs/installing.md)。
 
 ## 路线图
 

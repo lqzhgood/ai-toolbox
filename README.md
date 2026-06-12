@@ -8,16 +8,53 @@ curated, validated, indexed, and installable from Claude Code, Codex,
 
 **Browse the catalog:** <https://lqzhgood.github.io/ai-toolbox/> · machine-readable: [`catalog.json`](catalog.json)
 
-## Install
+## Import assets (the main workflow)
 
-| Tool | Command |
-| ---- | ------- |
-| Claude Code | `/plugin marketplace add lqzhgood/ai-toolbox` |
-| npx skills | `npx skills add lqzhgood/ai-toolbox --skill <name>` |
-| Codex | `$skill-installer install https://github.com/lqzhgood/ai-toolbox/tree/main/skills/<name>` |
-| Manual | clone, then copy `skills/<name>` into `~/.claude/skills/`, `~/.codex/skills/`, or `.agents/skills/` |
+This library grows by **importing**: point the importer at a skill you found
+(or wrote elsewhere) and it gets checked, cleaned, traced and indexed.
 
-Details and per-platform notes: [docs/installing.md](docs/installing.md).
+In Claude Code — inside this repo, or anywhere with the `ai-toolbox-manager`
+plugin installed:
+
+```text
+/import D:\path\to\some-skill          # local directory
+/import https://github.com/coleam00/excalidraw-diagram-skill   # GitHub repo (or /tree/... subdirectory)
+```
+
+What happens (defined in [`skills/toolbox-import/SKILL.md`](skills/toolbox-import/SKILL.md)):
+
+1. **Identify** the asset type — skill / prompt / mcp (bare prompts get wrapped).
+2. **Mechanical checks** — `node tools/cli.js validate <path>`: spec violations
+   (name format, name = directory), hardcoded home paths, emails, key-shaped
+   strings, oversized manifests.
+3. **Semantic review** — functional hardcoding vs documentation examples,
+   unstated platform assumptions, privacy, description quality.
+4. **Duplicate check** — `node tools/cli.js similar <path>` keyword pre-filter,
+   then semantic comparison: merge / replace / coexist / skip.
+5. **Import report → you decide.** Nothing is copied before your call.
+6. **Execute** — rewrites applied, metadata completed. Third-party assets must
+   record `source` + `source-ref` + `license` for traceability; original work
+   is marked `origin: original`.
+7. **Re-index** — `catalog.json`, `catalog.js` and the marketplace skill list
+   update automatically; the final `validate` must be clean.
+
+No Claude available? Follow the same SKILL.md by hand — every step is a CLI
+command plus a judgment call.
+
+## Maintain & search
+
+```bash
+npm install            # once, for maintainer commands (js-yaml)
+
+node tools/cli.js search <关键词>    # find assets (Chinese or English, zero-dependency)
+node tools/cli.js list --type skill # browse by type/category
+node tools/cli.js new skill <name>  # scaffold a brand-new asset
+node tools/cli.js validate          # spec + portability + privacy checks
+npm run index                       # rebuild catalog + marketplace listing
+```
+
+Conventions, metadata schema and the category list:
+[docs/conventions.md](docs/conventions.md).
 
 ## What's inside
 
@@ -39,25 +76,16 @@ Every asset records its **provenance**: `origin: original` for home-grown
 work, `origin: third-party` with upstream `source`, `source-ref` and `license`
 for collected work — so updates and attribution stay auditable.
 
-## Curate
+## Install (sharing)
 
-```bash
-npm install            # once, for maintainer commands (js-yaml)
+| Tool | Command |
+| ---- | ------- |
+| Claude Code | `/plugin marketplace add lqzhgood/ai-toolbox` |
+| npx skills | `npx skills add lqzhgood/ai-toolbox --skill <name>` |
+| Codex | `$skill-installer install https://github.com/lqzhgood/ai-toolbox/tree/main/skills/<name>` |
+| Manual | clone, then copy `skills/<name>` into `~/.claude/skills/`, `~/.codex/skills/`, or `.agents/skills/` |
 
-node tools/cli.js validate          # spec + portability + privacy checks
-node tools/cli.js new skill <name>  # scaffold a new asset
-node tools/cli.js search <keyword>  # find assets (zero-dependency)
-node tools/cli.js similar <path>    # keyword-overlap duplicate pre-filter
-npm run index                       # rebuild catalog + marketplace listing
-```
-
-Importing something you found? Use the **`/import <path-or-url>`** command
-(or follow [`skills/toolbox-import/SKILL.md`](skills/toolbox-import/SKILL.md)):
-it validates, reviews portability and privacy, checks for duplicates, proposes
-metadata, and waits for your decision before anything lands.
-
-Conventions, metadata schema and the category list:
-[docs/conventions.md](docs/conventions.md).
+Details and per-platform notes: [docs/installing.md](docs/installing.md).
 
 ## Roadmap
 
